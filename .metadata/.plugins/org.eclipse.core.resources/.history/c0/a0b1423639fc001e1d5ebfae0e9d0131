@@ -1,0 +1,51 @@
+package kevinrivas_ex01;
+
+import java.net.URL;
+import java.sql.*;
+import java.util.ResourceBundle;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+
+public class ProductsController implements Initializable {
+
+    @FXML
+    private TableView<Product> resultsOutput;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        // Initialize the table columns
+        TableColumn<Product, String> productIdColumn = new TableColumn<>("Product ID");
+        TableColumn<Product, String> nameColumn = new TableColumn<>("Name");
+        TableColumn<Product, String> manufacturerColumn = new TableColumn<>("Manufacturer");
+        TableColumn<Product, Double> priceColumn = new TableColumn<>("Price Per Unit");
+
+        productIdColumn.setCellValueFactory(cellData -> cellData.getValue().productIdProperty());
+        nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        manufacturerColumn.setCellValueFactory(cellData -> cellData.getValue().manufacturerProperty());
+        priceColumn.setCellValueFactory(cellData -> cellData.getValue().pricePerUnitProperty().asObject());
+
+        resultsOutput.getColumns().addAll(productIdColumn, nameColumn, manufacturerColumn, priceColumn);
+    }
+
+    @FXML
+    private void handleDisplayAll(ActionEvent event) {
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/your_database_name", "your_username", "your_password");
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM Products")) {
+
+            resultsOutput.getItems().clear();
+
+            while (resultSet.next()) {
+                Product product = new Product(resultSet.getString("ProductID"), resultSet.getString("Name"), resultSet.getString("ManufacturerName"), resultSet.getDouble("PricePerUnit"));
+                resultsOutput.getItems().add(product);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error fetching data from database: " + e.getMessage());
+        }
+    }
+}

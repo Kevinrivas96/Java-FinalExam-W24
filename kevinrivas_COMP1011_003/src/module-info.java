@@ -1,0 +1,8 @@
+module kevinrivas_COMP1011_003 {
+	requires javafx.controls;
+	requires javafx.graphics;
+	requires javafx.fxml;
+	requires java.sql;
+	
+	opens kevinrivas_ex01 to javafx.graphics, javafx.fxml, javafx.base;
+}

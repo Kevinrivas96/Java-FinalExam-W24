@@ -1,0 +1,36 @@
+public class Product {
+
+    private String name;
+    private String manufacturerName;
+    private double pricePerUnit;
+
+    public Product(String name, String manufacturerName, double pricePerUnit) {
+        this.name = name;
+        this.manufacturerName = manufacturerName;
+        this.pricePerUnit = pricePerUnit;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getManufacturerName() {
+        return manufacturerName;
+    }
+
+    public void setManufacturerName(String manufacturerName) {
+        this.manufacturerName = manufacturerName;
+    }
+
+    public double getPricePerUnit() {
+        return pricePerUnit;
+    }
+
+    public void setPricePerUnit(double pricePerUnit) {
+        this.pricePerUnit = pricePerUnit;
+    }
+}

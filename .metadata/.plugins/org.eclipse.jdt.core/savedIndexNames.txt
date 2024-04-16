@@ -1,0 +1,14 @@
+INDEX VERSION 1.131+C:\KevinRivas_COMP1011_003_Test02\.metadata\.plugins\org.eclipse.jdt.core
+331228379.index
+1865797976.index
+2691525899.index
+692801826.index
+2797614821.index
+328094245.index
+2021347627.index
+2735059817.index
+135703382.index
+131723466.index
+2933390247.index
+3699141074.index
+2663169967.index

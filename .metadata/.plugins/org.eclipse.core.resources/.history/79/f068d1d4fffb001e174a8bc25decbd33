@@ -1,0 +1,56 @@
+package kevinrivas_ex01;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.TextArea;
+import java.sql.*;
+
+public class Controller {
+
+    @FXML
+    private TextArea resultsOutput;
+
+    @FXML
+    private void displayAllRecords() {
+        try {
+            // Establish the database connection
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/ProductsDB", "your_username", "your_password");
+
+            // Create a statement
+            Statement statement = connection.createStatement();
+
+            // Execute the query to select all records from the Product table
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM Product");
+
+            // Clear the existing text in the resultsOutput TextArea
+            resultsOutput.clear();
+
+            // Iterate over the result set and append each record to the resultsOutput TextArea
+            while (resultSet.next()) {
+                int productId = resultSet.getInt("ProductID");
+                String name = resultSet.getString("Name");
+                String manufacturer = resultSet.getString("Manufacturer");
+                double pricePerUnit = resultSet.getDouble("PricePerUnit");
+
+                resultsOutput.appendText("ProductID: " + productId + ", Name: " + name + ", Manufacturer: " + manufacturer + ", PricePerUnit: " + pricePerUnit + "\n");
+            }
+
+            // Close resources
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            System.err.println("Error retrieving records: " + e.getMessage());
+        }
+    }
+}

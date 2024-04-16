@@ -1,0 +1,133 @@
+package kevinrivas_ex01;
+// Fig. 24.31: PersonQueries.java
+// PreparedStatements used by the Address Book application.
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.ArrayList;
+
+public class productQueries {
+	
+	private static final String URL = "jdbc:mysql://172.31.22.43:3306/Kevin200555784";
+	private static final String USERNAME = "Kevin200555784";
+	private static final String PASSWORD = "0plrVLtjN8";
+
+    private Connection connection; // manages connection
+    private PreparedStatement selectAllProducts;       
+    private PreparedStatement selectPeopleByLastName;
+    private PreparedStatement insertNewPerson;       
+    
+   // constructor
+   public productQueries() {
+      try {
+         connection = 
+            DriverManager.getConnection(URL, USERNAME, PASSWORD);
+
+         // create query that selects all entries in the AddressBook 
+         selectAllProducts = connection.prepareStatement(
+            "SELECT * FROM Kevin200555784.Products");
+         
+         // create query that selects entries with last names 
+         // that begin with the specified characters 
+         selectPeopleByLastName = connection.prepareStatement(        
+            "SELECT * FROM Addresses WHERE LastName LIKE ? " + 
+            "ORDER BY LastName, FirstName");            
+         
+         // create insert that adds a new entry into the database
+         insertNewPerson = connection.prepareStatement(         
+            "INSERT INTO Addresses " +                           
+            "(FirstName, LastName, Email, PhoneNumber) " +     
+            "VALUES (?, ?, ?, ?)");                           
+      } 
+      catch (SQLException sqlException) {
+         sqlException.printStackTrace();
+         System.exit(1);
+      } 
+   } 
+   
+   // select all of the addresses in the database
+   public List<product> getAllProducts() {
+      // executeQuery returns ResultSet containing matching entries
+      try (ResultSet resultSet = selectAllProducts.executeQuery()) {
+         List<product> results = new ArrayList<product>();
+         
+         while (resultSet.next()) {
+            results.add(new product(
+               resultSet.getInt("productID"),
+               resultSet.getString("name"),
+               resultSet.getString("manufacturerName"),
+               resultSet.getDouble("pricePerUnit")));        } 
+
+         return results;
+      }
+      catch (SQLException sqlException) {
+         sqlException.printStackTrace();         
+      }
+      
+      return null;
+   }
+   
+//   // select person by last name
+//   public List<Person> getPeopleByLastName(String lastName) {
+//      try {
+//         selectPeopleByLastName.setString(1, lastName); // set last name
+//      }
+//      catch (SQLException sqlException) {
+//         sqlException.printStackTrace();
+//         return null;
+//      }
+//
+//      // executeQuery returns ResultSet containing matching entries
+//      try (ResultSet resultSet = selectPeopleByLastName.executeQuery()) {
+//         List<Person> results = new ArrayList<Person>();
+//
+//         while (resultSet.next()) {
+//            results.add(new Person(
+//               resultSet.getInt("addressID"),
+//               resultSet.getString("FirstName"),
+//               resultSet.getString("LastName"),
+//               resultSet.getString("Email"),
+//               resultSet.getString("PhoneNumber")));
+//         } 
+//
+//         return results;
+//      }
+//      catch (SQLException sqlException) {
+//         sqlException.printStackTrace();
+//         return null;
+//      } 
+//   }
+//   
+//   // add an entry
+//   public int addPerson(String firstName, String lastName, 
+//      String email, String phoneNumber) {
+//      
+//      // insert the new entry; returns # of rows updated
+//      try {
+//         // set parameters
+//         insertNewPerson.setString(1, firstName);
+//         insertNewPerson.setString(2, lastName);
+//         insertNewPerson.setString(3, email);
+//         insertNewPerson.setString(4, phoneNumber);  
+//
+//         return insertNewPerson.executeUpdate();         
+//      }
+//      catch (SQLException sqlException) {
+//         sqlException.printStackTrace();
+//         return 0;
+//      }
+//   }
+   
+   // close the database connection
+   public void close() {
+      try {
+         connection.close();
+      } 
+      catch (SQLException sqlException) {
+         sqlException.printStackTrace();
+      } 
+   }
+} 

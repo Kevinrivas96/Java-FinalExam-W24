@@ -1,0 +1,66 @@
+package kevinrivas_ex01;
+
+public class products {
+    private int productID;
+    private String name;
+    private String manufacturerName;
+    private double pricePerUnit;
+
+    // constructor
+    public products() {}
+
+    // constructor
+    public products(int productID, String name, String manufacturerName, double pricePerUnit) {
+        this.productID = productID;
+        this.name = name;
+        this.manufacturerName = manufacturerName;
+        this.pricePerUnit = pricePerUnit;
+    }
+
+    // Getter and Setter for productID
+    public int getProductID() {
+        return productID;
+    }
+
+    public void setProductID(int productID) {
+        this.productID = productID;
+    }
+
+    // Getter and Setter for name
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    // Getter and Setter for manufacturerName
+    public String getManufacturerName() {
+        return manufacturerName;
+    }
+
+    public void setManufacturerName(String manufacturerName) {
+        this.manufacturerName = manufacturerName;
+    }
+
+    // Getter and Setter for pricePerUnit
+    public double getPricePerUnit() {
+        return pricePerUnit;
+    }
+
+    public void setPricePerUnit(double pricePerUnit) {
+        this.pricePerUnit = pricePerUnit;
+    }
+}
+
+
+
+// returns the string representation of the Person's name
+@Override
+public String toString() 
+   {return getLastName() + ", " + getFirstName();}
+}
+
+
+
